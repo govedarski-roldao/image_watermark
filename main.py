@@ -36,15 +36,24 @@ def add_watermark():
                 try:
                     txt = Image.new("RGBA", current_image.size, (255, 255, 255, 0))
                     d = ImageDraw.Draw(txt)
-                    font = ImageFont.truetype("arial.ttf", 26)
+                    font = ImageFont.truetype("arial.ttf", 35)
 
-                    d.text((100, 100), text=text, font=font, fill=(255, 255, 255, 128))
+                    d.text((125, 125), text=text, font=font, fill=(255, 255, 255, 128))
 
-                    watermarked_image = Image.alpha_composite(current_image.convert("RGBA"), txt)
+                    # Rotaciona a camada de texto
+                    txt_rotated = txt.rotate(45, expand=True)
 
+                    # Redimensiona a camada rotacionada para garantir que ela tenha o mesmo tamanho da imagem original
+                    txt_rotated = txt_rotated.resize(current_image.size)
+
+                    # Faz a composição da imagem original com a camada de texto rotacionada
+                    watermarked_image = Image.alpha_composite(current_image.convert("RGBA"), txt_rotated)
+
+                    # Converte a imagem resultante para ser exibida no canvas
                     tk_img = ImageTk.PhotoImage(watermarked_image.resize((300, 300)))
                     image_area.image = tk_img
                     image_area.create_image(150, 150, image=tk_img)
+
                 except Exception as e:
                     messagebox.showerror(title="Watermark Error", message=f"An error occurred: {e}")
     else:
