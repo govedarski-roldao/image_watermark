@@ -1,6 +1,14 @@
 from tkinter import *
+from tkinter import filedialog
 
 from sqlalchemy import column
+
+
+def choose_image():
+    aplication = filedialog.askopenfilename(title="Choose an Image", filetypes=[("Images", "*.jpg"), ("Todos os arquivos", "*.*")])
+    if aplication:
+
+
 
 # region UI
 # ---------------------------------    Window
@@ -32,11 +40,10 @@ watermark_text_field.grid(column=2, row=5)
 
 # ---------------------------------    Button
 add_image = Button(text="Upload Image", padx=20)
-add_image.grid(column=2,row=3)
+add_image.grid(column=2, row=3)
 
 apply_button = Button(text="Create Watermark", padx=20)
 apply_button.grid(column=2, row=6)
 
 root.mainloop()
 # end Region
-
