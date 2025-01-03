@@ -1,15 +1,19 @@
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
+
+current_image = None
 
 
 def choose_image():
+    global current_image
     aplication = filedialog.askopenfilename(title="Choose an Image", filetypes=[("Images", "*.jpg;*.png;*.gif"), ("All files", "*.*")])
     if aplication:
         field_url.config(text=f"File chosen: {aplication}")
         try:
             img = Image.open(aplication)
             img = img.resize((200, 200))
+            current_image = img
             tk_img = ImageTk.PhotoImage(img)
             image_area.image = tk_img
             image_area.create_image(100, 100, image=tk_img)
@@ -20,8 +24,17 @@ def choose_image():
         field_url.config(text="No application chosen")
 
 
+def add_watermark():
+    global current_image
+    text = watermark_text_field.get()
+    if text:
+        if current_image:
+            pass
+    else:
+        messagebox.showinfo(title="Watermark Error")
+
 # region UI
-# ---------------------------------    Window
+# ---------------------------------    window
 root = Tk()
 root.title("Add a watermark to your images")
 root.minsize(width=600, height=500)
@@ -56,4 +69,4 @@ apply_button = Button(text="Create Watermark", padx=20)
 apply_button.grid(column=2, row=6)
 
 root.mainloop()
-# end Region
+## endregion
